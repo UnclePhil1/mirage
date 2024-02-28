@@ -1,0 +1,39 @@
+svg#freepik_stories-empty:not(.animated) .animable {
+  opacity: 0;
+}
+svg#freepik_stories-empty.animated #freepik--background-complete--inject-32 {
+  animation: 2s 1 forwards cubic-bezier(0.36, -0.01, 0.5, 1.38) zoomOut;
+  animation-delay: 0.5s;
+}
+svg#freepik_stories-empty.animated #freepik--Shadow--inject-32 {
+  animation: 2s 1 forwards cubic-bezier(0.36, -0.01, 0.5, 1.38) slideRight;
+  animation-delay: 0.5s;
+}
+svg#freepik_stories-empty.animated #freepik--Box--inject-32 {
+  animation: 2s 1 forwards cubic-bezier(0.36, -0.01, 0.5, 1.38) slideRight;
+  animation-delay: 0.5s;
+}
+svg#freepik_stories-empty.animated #freepik--Character--inject-32 {
+  animation: 2s 1 forwards cubic-bezier(0.36, -0.01, 0.5, 1.38) slideRight;
+  animation-delay: 0.5s;
+}
+@keyframes zoomOut {
+  0% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes slideRight {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
