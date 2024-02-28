@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider"
 import { ConvexClientProvider } from "@/providers/convex-client-provider";
 import { Toaster } from "@/components/ui/sonner"
+import { ModalProvider } from "@/providers/modal-provider";
 
 const figtree = Figtree({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ConvexClientProvider>
+            <ModalProvider />
             {children}
           </ConvexClientProvider>
         </ThemeProvider>

@@ -1,0 +1,25 @@
+@keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  
+  .blinking-warning {
+    animation: blink 1.5s infinite alternate; /* Blinking animation */
+    display: inline-block;
+    background: radial-gradient(circle, transparent 50%, rgba(197, 22, 22, 0.233) 100%);
+     /* Gradient transparent red background */
+    padding: 4px; /* Adjust padding as needed */
+    border-radius: 50%; /* Round background */
+    margin-right: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .icon {
+    color: #ff9800; /* Amber color for the icon */
+  }
+  
