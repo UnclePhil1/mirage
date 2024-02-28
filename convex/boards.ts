@@ -16,6 +16,25 @@ export const get = query({
       throw new Error("Unauthorized");
     }
 
+    if (args.favorites) {
+      const favoritedBoards = await ctx.db
+        .query("userFavorites")
+        .withIndex("by_user_org", (q) =>
+          q.eq("userId", identity.subject).eq("orgId", args.orgId)
+        )
+        .order("desc")
+        .collect();
+
+      const ids = favoritedBoards.map((b) => b.boardId);
+
+      const boards = await getAllOrThrow(ctx.db, ids);
+
+      return boards.map((board) => ({
+        ...board,
+        isFavorite: true,
+      }));
+    }
+
     const title = args.search as string;
     let boards = [];
 
@@ -23,9 +42,7 @@ export const get = query({
       boards = await ctx.db
         .query("boards")
         .withSearchIndex("search_title", (q) =>
-          q
-            .search("title", title)
-            .eq("orgId", args.orgId)
+          q.search("title", title).eq("orgId", args.orgId)
         )
         .collect();
     } else {
@@ -36,6 +53,23 @@ export const get = query({
         .collect();
     }
 
-    return boards;
+    const boardsWithFavoriteRelation = boards.map((board) => {
+      return ctx.db
+        .query("userFavorites")
+        .withIndex("by_user_board", (q) =>
+          q.eq("userId", identity.subject).eq("boardId", board._id)
+        )
+        .unique()
+        .then((favorite) => {
+          return {
+            ...board,
+            isFavorite: !!favorite,
+          };
+        });
+    });
+
+    const boardsWithFavoriteBoolean = Promise.all(boardsWithFavoriteRelation);
+
+    return boardsWithFavoriteBoolean;
   },
 });

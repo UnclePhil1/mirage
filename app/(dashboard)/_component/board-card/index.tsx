@@ -43,24 +43,25 @@ const BoardCard = ({
         addSuffix: true,
     });
 
-    // const {
-    //     mutate: onFavorite,
-    //     pending: pendingFavorite,
-    // } = useApiMutation(api.board.favorite);
-    // const {
-    //     mutate: onUnfavorite,
-    //     pending: pendingUnfavorite,
-    // } = useApiMutation(api.board.unfavorite);
+    const {
+        mutate: onFavorite,
+        pending: pendingFavorite,
+    } = useApiMutation(api.board.favorite);
 
-    // const toggleFavorite = () => {
-    //     if (isFavorite) {
-    //         onUnfavorite({ id })
-    //             .catch(() => toast.error("Failed to unfavorite"))
-    //     } else {
-    //         onFavorite({ id, orgId })
-    //             .catch(() => toast.error("Failed to favorite"))
-    //     }
-    // };
+    const {
+        mutate: onUnfavorite,
+        pending: pendingUnfavorite,
+    } = useApiMutation(api.board.unfavorite);
+
+    const toggleFavorite = () => {
+        if (isFavorite) {
+            onUnfavorite({ id })
+                .catch(() => toast.error("Failed to unfavorite"))
+        } else {
+            onFavorite({ id, orgId })
+                .catch(() => toast.error("Failed to favorite"))
+        }
+    };
 
     return (
         <Link href={`/board/${id}`}>
@@ -91,8 +92,8 @@ const BoardCard = ({
                     title={title}
                     authorLabel={authorLabel}
                     createdAtLabel={createdAtLabel}
-                    onClick={() => { }}
-                    disabled={false}
+                    onClick={toggleFavorite}
+                    disabled={pendingFavorite || pendingUnfavorite}
                 />
             </div>
         </Link>

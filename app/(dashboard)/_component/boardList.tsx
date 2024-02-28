@@ -59,7 +59,6 @@ const BoardList = ({ orgId, query }: BoardListProps) => {
 
     return (
         <div>
-            {/* {JSON.stringify(data)} */}
             <h1 className="text-3xl">
                 {
                     query.favorites ? 'Favorite boards' : 'Team boards'
@@ -77,7 +76,7 @@ const BoardList = ({ orgId, query }: BoardListProps) => {
                         authorName={board.authorName}
                         createdAt={board._creationTime}
                         orgId={board.orgId}
-                        isFavorite={false}
+                        isFavorite={board.isFavorite}
 
                     />
                 ))}
