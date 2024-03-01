@@ -20,7 +20,7 @@ const InviteBtn = () => {
             <div className="hidden md:block">
                 <Dialog>
                     <DialogTrigger asChild>
-                        <Button variant={'outline'} className='bg-transparent border border-secondary'>
+                        <Button variant={'outline'} className='bg-transparent border border-primary text-primary hover:bg-primary hover:text-secondary'>
                             <Plus className='h-4 w-4 mr-2' />
                             Invite members
                         </Button>
@@ -36,7 +36,7 @@ const InviteBtn = () => {
                         <TooltipProvider>
                             <Tooltip delayDuration={100}>
                                 <TooltipTrigger asChild>
-                                    <Button variant={'outline'} className='bg-transparent border border-secondary'>
+                                    <Button variant={'outline'} className='bg-transparent border border-primary'>
                                         <Plus className='' size={15} />
                                     </Button>
                                 </TooltipTrigger>

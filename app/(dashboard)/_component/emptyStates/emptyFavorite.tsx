@@ -16,8 +16,8 @@ const EmptyFavorite = () => {
                     animationDelay: '0s',
                 }}
             />
-            <p className='text-secondary/50 text-xl text-center font-normal'>No favorites!</p>
-            <p className='text-secondary/50 text-sm text-center'>Add a favorite of your own</p>
+            <p className='text-primary/50 text-xl text-center font-normal'>No favorites!</p>
+            <p className='text-primary/50 text-sm text-center'>Add a favorite of your own</p>
         </div>
     )
 }

@@ -18,12 +18,14 @@ interface BoardListProps {
 }
 
 const BoardList = ({ orgId, query }: BoardListProps) => {
-    const data = useQuery(api.boards.get, { orgId });
+    const data = useQuery(api.boards.get, {
+         orgId, ...query
+        });
 
     if (data === undefined) {
         return (
             <div>
-                <h1 className="text-3xl">
+                <h1 className="text-3xl text-primary">
                     {
                         query.favorites ? 'Favorite boards' : 'Team boards'
                     }
@@ -59,7 +61,7 @@ const BoardList = ({ orgId, query }: BoardListProps) => {
 
     return (
         <div>
-            <h1 className="text-3xl">
+            <h1 className="text-3xl text-primary">
                 {
                     query.favorites ? 'Favorite boards' : 'Team boards'
                 }

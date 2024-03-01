@@ -30,7 +30,7 @@ const SearchInput = () => {
   return (
     <div className='w-full relative flex justify-start items-center'>
         <Search size={24} className='absolute top-1/2 left-3 transform -translate-y-1/2 text-muted-foreground h-4 w-4'/>
-        <Input onChange={handleSearchChange} className='w-full lg:max-w-[500px] border border-muted/10 pl-9 bg-transparent' placeholder='Search boards'/>
+        <Input onChange={handleSearchChange} className='w-full text-primary lg:max-w-[500px] border border-muted-foreground/10 pl-9 bg-transparent' placeholder='Search boards'/>
     </div>
   )
 }

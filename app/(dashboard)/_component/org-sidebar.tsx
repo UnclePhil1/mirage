@@ -20,7 +20,7 @@ const OrgSidebar = () => {
     const favorites = searchParams.get('favorites');
 
     return (
-        <div className='hidden lg:flex flex-col space-y-6 w-[208px] pt-4 p-4 bg-primary shadow-md border border-muted/10 relative'>
+        <div className='hidden lg:flex flex-col space-y-6 w-[208px] pt-4 p-4 bg-secondary shadow-md border border-muted/10 relative'>
             <Link href={''}>
                 <div className='flex items-center justify-start gap-x-2'>
                     <Image
@@ -30,7 +30,7 @@ const OrgSidebar = () => {
                         height={40}
                         className=''
                     />
-                    <span className={cn(`font-semibold text-2xl text-muted`, font.className)}>Mirage</span>
+                    <span className={cn(`font-semibold text-2xl text-primary`, font.className)}>Mirage</span>
                 </div>
             </Link>
             <div className="fade-in-out"></div>
@@ -58,26 +58,26 @@ const OrgSidebar = () => {
             />
             <div className="space-y-2 w-full">
                 <Button
-                    variant={favorites ? 'ghost' : 'secondary'}
+                    variant={favorites ? 'ghost' : 'default'}
                     asChild
                     size={'lg'}
-                    className='font-normal justify-start px-2 w-full hover:bg-muted/10 hover:text-muted'
+                    className='font-normal justify-start px-2 w-full hover:bg-muted-foreground/10 hover:text-primary border border-muted-foreground/10'
                 >
-                    <Link href="/" className='text-muted'>
+                    <Link href="/" className='text-primary'>
                         <LayoutDashboard className='h-4 w-4 mr-2' />
                         Team boards
                     </Link>
                 </Button>
                 <Button
-                    variant={favorites ? 'secondary' : 'ghost'}
+                    variant={favorites ? 'default' : 'ghost'}
                     asChild
                     size={'lg'}
-                    className='font-normal justify-start px-2 w-full hover:bg-muted/10 hover:text-muted'
+                    className='font-normal justify-start px-2 w-full hover:bg-muted-foreground/10 hover:text-primary border border-muted-foreground/10'
                 >
                     <Link href={{
                         pathname: '/',
                         query: { favorites: true }
-                    }} className='text-muted'>
+                    }} className='text-primary'>
                         <HeartIcon className='h-4 w-4 mr-2' />
                         Favorite boards
                     </Link>

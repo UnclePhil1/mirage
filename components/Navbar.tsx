@@ -23,7 +23,6 @@ const Navbar = () => {
 
 
                 <div className="flex gap-4 justify-center items-center">
-                    <UserButton afterSignOutUrl='/' />
                     <Button variant='outline' className=''>
                         <Link href={'/sign-in'}>Log-in</Link>
                     </Button>

@@ -16,6 +16,7 @@ export const get = query({
       throw new Error("Unauthorized");
     }
 
+    //getting a favorited boards
     if (args.favorites) {
       const favoritedBoards = await ctx.db
         .query("userFavorites")

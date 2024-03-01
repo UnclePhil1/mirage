@@ -16,7 +16,7 @@ const EmptySearch = () => {
                     animationDelay: '0s',
                 }}
             />
-            <p className='text-secondary/50 text-xl text-center'>Not found, try searching again!</p>
+            <p className='text-primary/50 text-xl text-center'>Not found, try searching again!</p>
         </div>
     )
 }
