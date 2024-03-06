@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import Info from './info'
 import { Participants } from './participants'
 import { Toolbar } from './toolbar'
@@ -19,8 +19,8 @@ import {
 
 import {
   //   colorToCss,
-  //   connectionIdToColor, 
-  //   findIntersectingLayersWithRectangle, 
+    connectionIdToColor, 
+    // findIntersectingLayersWithRectangle, 
   //   penPointsToPathLayer, 
   pointerEventToCanvasPoint,
   //   resizeBounds,
@@ -133,7 +133,21 @@ const Canvas = ({ boardId }: CanvasProps) => {
     history.resume();
   }, [camera, canvasState, history, insertLayer]);
 
+  const selections = useOthersMapped((other) => other.presence.selection);
 
+  const layerIdsToColorSelection = useMemo(() => {
+    const layerIdsToColorSelection: Record<string, string> = {};
+
+    for(const user of selections){
+      const [connectionId, selection] = user;
+
+      for (const layerId of selection) {
+        layerIdsToColorSelection[layerId] = connectionIdToColor(connectionId)
+      }
+    }
+
+    return layerIdsToColorSelection;
+  }, [selections])
 
   return (
     <div className='w-full h-screen bg-muted-foreground/10 touch-none relative'>
@@ -165,7 +179,7 @@ const Canvas = ({ boardId }: CanvasProps) => {
                 key={layerId}
                 id={layerId}
                 onLayerPointDown={() => {}}
-                selectionColor={'#000'}
+                selectionColor={layerIdsToColorSelection[layerId]}
               />
             ))
           }
