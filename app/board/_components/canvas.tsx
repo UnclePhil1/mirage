@@ -68,17 +68,40 @@ const Canvas = ({ boardId }: CanvasProps) => {
   const canUndo = useCanUndo();
   const canRedo = useCanRedo();
 
+  const resizeSelectedLayer = useMutation((
+    { storage, self },
+    point: Point,
+  ) => {
+    if (canvasState.mode !== CanvasMode.Resizing) {
+      return;
+    }
+
+    const bounds = resizeBounds(
+      canvasState.initialBounds,
+      canvasState.corner,
+      point,
+    );
+
+    const liveLayers = storage.get("layers");
+    const layer = liveLayers.get(self.presence.selection[0]);
+
+    if (layer) {
+      layer.update(bounds);
+    };
+
+  }, [canvasState])
+
   // Resizing the black boxes
   const onResizeHandlePointerDown = useCallback((
     corner: Side,
     initialBounds: XYWH,
-) => {
-      history.pause();
-      setCanvasState({
-        mode: CanvasMode.Resizing,
-        initialBounds,
-        corner
-      })
+  ) => {
+    history.pause();
+    setCanvasState({
+      mode: CanvasMode.Resizing,
+      initialBounds,
+      corner
+    })
   }, [history])
 
   const insertLayer = useMutation((
@@ -123,12 +146,17 @@ const Canvas = ({ boardId }: CanvasProps) => {
     e.preventDefault();
 
     const current = pointerEventToCanvasPoint(e, camera);
+
+    if (canvasState.mode === CanvasMode.Resizing) {
+      resizeSelectedLayer(current);
+    }
+
     setMyPresence({ cursor: current });
-  }, [])
+  }, [canvasState])
 
   const onPointerLeave = useMutation(({ setMyPresence }) => {
     setMyPresence({ cursor: null });
-  }, []);
+  }, [resizeSelectedLayer, canvasState, camera]);
 
 
   const onPointerUp = useMutation(({ }, e) => {
@@ -223,8 +251,8 @@ const Canvas = ({ boardId }: CanvasProps) => {
               />
             ))
           }
-          <SelectionBox 
-              onResizeHandlePointerDown={onResizeHandlePointerDown}
+          <SelectionBox
+            onResizeHandlePointerDown={onResizeHandlePointerDown}
           />
           <CursorPressence />
         </g>
