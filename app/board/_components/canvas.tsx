@@ -19,8 +19,8 @@ import {
 
 import {
   //   colorToCss,
-    connectionIdToColor, 
-    // findIntersectingLayersWithRectangle, 
+  connectionIdToColor,
+  // findIntersectingLayersWithRectangle, 
   //   penPointsToPathLayer, 
   pointerEventToCanvasPoint,
   //   resizeBounds,
@@ -40,6 +40,7 @@ import {
 import { CursorPressence } from './cursor-pressence'
 import { LiveObject } from '@liveblocks/client'
 import { LayerPreview } from './LayerPreview'
+import { SelectionBox } from './SelectionBox'
 
 const MAX_LAYERS = 100;
 
@@ -66,6 +67,19 @@ const Canvas = ({ boardId }: CanvasProps) => {
   const history = useHistory();
   const canUndo = useCanUndo();
   const canRedo = useCanRedo();
+
+  // Resizing the black boxes
+  const onResizeHandlePointerDown = useCallback((
+    corner: Side,
+    initialBounds: XYWH,
+) => {
+      history.pause();
+      setCanvasState({
+        mode: CanvasMode.Resizing,
+        initialBounds,
+        corner
+      })
+  }, [history])
 
   const insertLayer = useMutation((
     { storage, setMyPresence },
@@ -138,7 +152,7 @@ const Canvas = ({ boardId }: CanvasProps) => {
   const layerIdsToColorSelection = useMemo(() => {
     const layerIdsToColorSelection: Record<string, string> = {};
 
-    for(const user of selections){
+    for (const user of selections) {
       const [connectionId, selection] = user;
 
       for (const layerId of selection) {
@@ -149,8 +163,34 @@ const Canvas = ({ boardId }: CanvasProps) => {
     return layerIdsToColorSelection;
   }, [selections])
 
+  const onLayerPointerDown = useMutation((
+    { self, setMyPresence },
+    e: React.PointerEvent,
+    layerId: string,
+  ) => {
+    if (
+      canvasState.mode === CanvasMode.Pencil ||
+      canvasState.mode === CanvasMode.Inserting
+    ) {
+      return;
+    }
+
+    history.pause();
+    e.stopPropagation();
+
+    const point = pointerEventToCanvasPoint(e, camera);
+
+    if (!self.presence.selection.includes(layerId)) {
+      setMyPresence({ selection: [layerId] }, { addToHistory: true });
+    }
+
+    setCanvasState({ mode: CanvasMode.Translating, current: point });
+
+  }, [setCanvasState, camera, history, canvasState.mode]);
+
+
   return (
-    <div className='w-full h-screen bg-muted-foreground/10 touch-none relative'>
+    <div className='w-full h-screen touch-none relative bg_squad'>
       <Info boardId={boardId} />
       <Participants />
       <Toolbar
@@ -174,15 +214,18 @@ const Canvas = ({ boardId }: CanvasProps) => {
           }}
         >
           {
-            layerIds.map((layerId) => (
-              <LayerPreview 
+            layerIds.map((layerId: any) => (
+              <LayerPreview
                 key={layerId}
                 id={layerId}
-                onLayerPointDown={() => {}}
+                onLayerPointDown={onLayerPointerDown}
                 selectionColor={layerIdsToColorSelection[layerId]}
               />
             ))
           }
+          <SelectionBox 
+              onResizeHandlePointerDown={onResizeHandlePointerDown}
+          />
           <CursorPressence />
         </g>
       </svg>

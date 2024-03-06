@@ -5,6 +5,7 @@ import React from 'react'
 import SearchInput from './search-input'
 import InviteBtn from './invite-btn'
 import { useOrganization } from '@clerk/nextjs'
+import { ModeToggle } from '@/components/modeToggle'
 
 
 const Navbar = () => {
@@ -43,6 +44,7 @@ const Navbar = () => {
             {organization && (
                 <InviteBtn />
             )}
+            {/* <ModeToggle /> */}
             <UserButton afterSignOutUrl='/' />
         </div>
     )
