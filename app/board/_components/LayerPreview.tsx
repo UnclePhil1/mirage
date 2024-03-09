@@ -8,6 +8,8 @@ import { useStorage } from "@/liveblocks.config";
 
 import { Rectangle } from './rectangle'
 import { Ellipse } from "./ellipse";
+import { TextEditable } from "./text-editable";
+import { Note } from "./note";
 
 interface LayerPreviewProps {
     id: string;
@@ -28,6 +30,25 @@ export const LayerPreview = memo(({
     }
 
     switch (layer.type) {
+        case LayerType.Note:
+            return (
+                <Note
+                    id={id}
+                    layer={layer}
+                    onPointerDown={onLayerPointDown}
+                    selectionColor={selectionColor}
+                />
+            );
+        case LayerType.Text:
+            return (
+                <TextEditable
+                    id={id}
+                    layer={layer}
+                    onPointerDown={onLayerPointDown}
+                    selectionColor={selectionColor}
+                />
+            );
+
         case LayerType.Ellipse:
             return (
                 <Ellipse

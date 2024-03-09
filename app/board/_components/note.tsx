@@ -1,8 +1,8 @@
 import { Pangolin } from "next/font/google";
 import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 
-import { TextLayer } from "@/types/canvas";
-import { cn, colorToCss } from "@/lib/utils";
+import { NoteLayer } from "@/types/canvas";
+import { cn, colorToCss, getContrastingTextColor } from "@/lib/utils";
 import { useMutation } from "@/liveblocks.config";
 
 const font = Pangolin({
@@ -11,8 +11,8 @@ const font = Pangolin({
 });
 
 const calculateFontSize = (width: number, height: number) => {
-  const maxFontSize = 90;
-  const scaleFactor = 0.3;
+  const maxFontSize = 96;
+  const scaleFactor = 0.15;
   const fontSizeBasedOnHeight = height * scaleFactor;
   const fontSizeBasedOnWidth = width * scaleFactor;
 
@@ -23,22 +23,21 @@ const calculateFontSize = (width: number, height: number) => {
   );
 }
 
-interface TextProps {
+interface NoteProps {
   id: string;
-  layer: TextLayer;
+  layer: NoteLayer;
   onPointerDown: (e: React.PointerEvent, id: string) => void;
   selectionColor?: string;
 };
 
-export const TextEditable = ({
+export const Note = ({
   layer,
   onPointerDown,
   id,
   selectionColor,
-}: TextProps) => {
+}: NoteProps) => {
   const { x, y, width, height, fill, value } = layer;
 
-    // updating text value, i.e onchange value
   const updateValue = useMutation((
     { storage },
     newValue: string,
@@ -60,19 +59,21 @@ export const TextEditable = ({
       height={height}
       onPointerDown={(e) => onPointerDown(e, id)}
       style={{
-        outline: selectionColor ? `1px solid ${selectionColor}` : "none"
+        outline: selectionColor ? `1px solid ${selectionColor}` : "none",
+        backgroundColor: fill ? colorToCss(fill) : "#000",
       }}
+      className="shadow-md drop-shadow-xl"
     >
       <ContentEditable
-        html={value || "Your text"}
+        html={value || "Text"}
         onChange={handleContentChange}
         className={cn(
-          "h-full w-full flex items-center justify-center text-center drop-shadow-md outline-none",
+          "h-full w-full flex items-center p-2 justify-center text-center outline-none",
           font.className
         )}
         style={{
           fontSize: calculateFontSize(width, height),
-          color: fill ? colorToCss(fill) : "#000",
+          color: fill ? getContrastingTextColor(fill) : "#000",
         }}
       />
     </foreignObject>
