@@ -28,7 +28,7 @@ export const ToolButton = ({
         size="icon"
         variant={isActive ? "boardActive" : "board"}
       >
-        <Icon className={'text-primary/80'} />
+        <Icon className={'text-primary/80'}/>
       </Button>
     </Hint>
   );

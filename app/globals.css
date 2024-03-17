@@ -3,9 +3,7 @@
 @tailwind utilities;
  
 .bg_squad{
-  background-image: url('../public/Images/quad.svg');
-  background-repeat: no-repeat;
-  background-size: cover;
+ background-color: whitesmoke;
 }
 
 @layer base {

@@ -47,6 +47,17 @@ export type Color = {
     points: number[][];
     value?: string;
   };
+
+  export type MarkerLayer = {
+    type: LayerType.Path;
+    x: number;
+    y: number;
+    height: number;
+    width: number;
+    fill: Color;
+    points: number[][];
+    value?: string;
+  };
   
   export type TextLayer = {
     type: LayerType.Text;
@@ -108,6 +119,9 @@ export type Color = {
         mode: CanvasMode.Pencil,
       }
     | {
+        mode: CanvasMode.Marker,
+      }
+    | {
         mode: CanvasMode.Pressing,
         origin: Point;
       }
@@ -125,6 +139,7 @@ export type Color = {
     Inserting,
     Resizing,
     Pencil,
+    Marker
   };
   
   export type Layer = RectangleLayer | EllipseLayer | PathLayer | TextLayer | NoteLayer

@@ -44,8 +44,8 @@ const Navbar = () => {
             {organization && (
                 <InviteBtn />
             )}
-            <ModeToggle />
-            <UserButton afterSignOutUrl='/' />
+            {/* <ModeToggle /> */}
+            <UserButton afterSignOutUrl='' />
         </div>
     )
 }

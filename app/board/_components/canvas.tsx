@@ -47,6 +47,18 @@ import { Path } from './path'
 import { useDeleteLayers } from '@/hooks/use-delete-layers'
 import { useDisableScrollBounce } from '@/hooks/use-disable-scroll-bounce'
 
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+import { CanvaToolbar } from './canva-toolbar'
+import { useRouter } from 'next/navigation'
+import { ArrowLeft } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Marker } from './marker'
+
 const MAX_LAYERS = 100;
 
 
@@ -453,73 +465,107 @@ const Canvas = ({ boardId }: CanvasProps) => {
     }
   }, [deleteLayers, history]);
 
+  const router = useRouter()
+
+  const handleGoBack = () => {
+    router.back();
+  }
+
 
   return (
-    <div className='w-full h-screen touch-none relative bg_squad'>
-      <Info boardId={boardId} />
-      <Participants />
-      <Toolbar
-        canvasState={canvasState}
-        setCanvasState={setCanvasState}
-        canRedo={canRedo}
-        canUndo={canUndo}
-        undo={history.undo}
-        redo={history.redo}
-      />
-      <SelectionTools
-        camera={camera}
-        setLastUsedColor={setLastUsedColor}
-      />
-      <svg
-        className="h-[100vh] w-[100vw]"
-        onWheel={onWheel}
-        onPointerMove={onPointerMove}
-        onPointerLeave={onPointerLeave}
-        onPointerUp={onPointerUp}
-        onPointerDown={onPointerDown}
-      >
-        <g
-          style={{
-            transform: `translate(${camera.x}px, ${camera.y}px)`
-          }}
-        >
-          {
-            layerIds.map((layerId: any) => (
-              <LayerPreview
-                key={layerId}
-                id={layerId}
-                onLayerPointDown={onLayerPointerDown}
-                selectionColor={layerIdsToColorSelection[layerId]}
-              />
-            ))
-          }
-          <SelectionBox
-            onResizeHandlePointerDown={onResizeHandlePointerDown}
+    <ContextMenu>
+      <ContextMenuTrigger>
+        <div className='w-full h-screen touch-none relative bg_squad'>
+          <Info boardId={boardId} />
+          <Button onClick={handleGoBack} variant='board' className='absolute top-20 left-4'>
+            <ArrowLeft size={30} className='text-primary/50 hover:text-primary/80'/>
+          </Button>
+          <Participants />
+          <Toolbar
+            canvasState={canvasState}
+            setCanvasState={setCanvasState}
+            canRedo={canRedo}
+            canUndo={canUndo}
+            undo={history.undo}
+            redo={history.redo}
           />
-          {
-            canvasState.mode === CanvasMode.SelectionNet &&
-            canvasState.current != null && (
-              <rect
-                className="fill-blue-500/5 stroke-blue-500 stroke-1"
-                x={Math.min(canvasState.origin.x, canvasState.current.x)}
-                y={Math.min(canvasState.origin.y, canvasState.current.y)}
-                width={Math.abs(canvasState.origin.x - canvasState.current.x)}
-                height={Math.abs(canvasState.origin.y - canvasState.current.y)}
+          <SelectionTools
+            camera={camera}
+            setLastUsedColor={setLastUsedColor}
+          />
+          <svg
+            className="h-[100vh] w-[100vw]"
+            onWheel={onWheel}
+            onPointerMove={onPointerMove}
+            onPointerLeave={onPointerLeave}
+            onPointerUp={onPointerUp}
+            onPointerDown={onPointerDown}
+          >
+            <g
+              style={{
+                transform: `translate(${camera.x}px, ${camera.y}px)`
+              }}
+            >
+              {
+                layerIds.map((layerId: any) => (
+                  <LayerPreview
+                    key={layerId}
+                    id={layerId}
+                    onLayerPointDown={onLayerPointerDown}
+                    selectionColor={layerIdsToColorSelection[layerId]}
+                  />
+                ))
+              }
+              <SelectionBox
+                onResizeHandlePointerDown={onResizeHandlePointerDown}
               />
-            )
-          }
-          <CursorPressence />
-          {pencilDraft != null && pencilDraft.length > 0 && (
-            <Path
-              points={pencilDraft}
-              fill={colorToCss(lastUsedColor)}
-              x={0}
-              y={0}
-            />
-          )}
-        </g>
-      </svg>
-    </div>
+              {
+                canvasState.mode === CanvasMode.SelectionNet &&
+                canvasState.current != null && (
+                  <rect
+                    className="fill-blue-500/5 stroke-blue-500 stroke-1"
+                    x={Math.min(canvasState.origin.x, canvasState.current.x)}
+                    y={Math.min(canvasState.origin.y, canvasState.current.y)}
+                    width={Math.abs(canvasState.origin.x - canvasState.current.x)}
+                    height={Math.abs(canvasState.origin.y - canvasState.current.y)}
+                  />
+                )
+              }
+              <CursorPressence />
+              {pencilDraft != null && pencilDraft.length > 0 && (
+                <Path
+                  points={pencilDraft}
+                  fill={colorToCss(lastUsedColor)}
+                  x={0}
+                  y={0}
+                />
+              )}
+              {pencilDraft != null && pencilDraft.length > 0 && (
+                <Marker
+                  points={pencilDraft}
+                  fill={colorToCss(lastUsedColor)}
+                  x={0}
+                  y={0}
+                />
+              )}
+            </g>
+          </svg>
+        </div>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <CanvaToolbar
+          canvasState={canvasState}
+          setCanvasState={setCanvasState}
+          canRedo={canRedo}
+          canUndo={canUndo}
+          undo={history.undo}
+          redo={history.redo}
+        />
+      </ContextMenuContent>
+    </ContextMenu>
+
+
+
   )
 }
 

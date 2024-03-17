@@ -1,17 +1,19 @@
-import { 
-  Circle, 
-  MousePointer2, 
-  Pencil, 
-  Redo2, 
-  Square, 
-  StickyNote, 
+'use client'
+
+import {
+  Circle,
+  MousePointer2,
+  Pencil,
+  Redo2,
+  Square,
+  StickyNote,
   Type,
-  Undo2
+  Undo2,
 } from "lucide-react";
 
 import { CanvasMode, CanvasState, LayerType } from "@/types/canvas";
+import { ToolButton } from "./tool-btn"
 
-import { ToolButton } from "./tool-btn";
 
 interface ToolbarProps {
   canvasState: CanvasState;
@@ -28,15 +30,16 @@ export const Toolbar = ({
   undo,
   redo,
   canUndo,
-  canRedo,
+  canRedo
 }: ToolbarProps) => {
+
   return (
-    <div className="absolute top-[50%] -translate-y-[50%] left-4 flex flex-col gap-y-4">
-      <div className="bg-white rounded-md p-1.5 flex gap-y-1 flex-col items-center shadow-md">
+    <div className="absolute top-[50%] md:top-[90%] -translate-y-[50%] md:-translate-x-[50%] left-4 md:left-[50%] flex flex-col md:flex-row gap-y-4 gap-x-4">
+      <div className="bg-white rounded-md p-1.5 flex gap-y-1 flex-col md:flex-row items-center shadow-md">
         <ToolButton
           label="Select"
           icon={MousePointer2}
-          onClick={() => setCanvasState({ 
+          onClick={() => setCanvasState({
             mode: CanvasMode.None
           })}
           isActive={
@@ -105,8 +108,18 @@ export const Toolbar = ({
             canvasState.mode === CanvasMode.Pencil
           }
         />
+        {/* <ToolButton
+          label="Draw"
+          icon={DrawIcon}
+          onClick={() => setCanvasState({
+            mode: CanvasMode.Marker,
+          })}
+          isActive={
+            canvasState.mode === CanvasMode.Marker
+          }
+        /> */}
       </div>
-      <div className="bg-white rounded-md p-1.5 flex flex-col items-center shadow-md">
+      <div className="bg-white rounded-md p-1.5 flex flex-col md:flex-row items-center shadow-md">
         <ToolButton
           label="Undo"
           icon={Undo2}
