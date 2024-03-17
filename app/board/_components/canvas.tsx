@@ -70,6 +70,9 @@ const Canvas = ({ boardId }: CanvasProps) => {
   const layerIds = useStorage((root) => root.layerIds);
   const pencilDraft = useSelf((me) => me.presence.pencilDraft);
 
+  const [zoomLevel, setZoomLevel] = useState(1); // Starting at 100% scale
+  const scaleFactor = 0.1;
+
   const info = useSelf((me: any) => me.info);
   const [canvasState, setCanvasState] = useState<CanvasState>({
     mode: CanvasMode.None,
@@ -478,7 +481,7 @@ const Canvas = ({ boardId }: CanvasProps) => {
         <div className='w-full h-screen touch-none relative bg_squad'>
           <Info boardId={boardId} />
           <Button onClick={handleGoBack} variant='board' className='absolute top-20 left-4'>
-            <ArrowLeft size={30} className='text-primary/50 hover:text-primary/80'/>
+            <ArrowLeft size={30} className='text-primary/50 hover:text-primary/80' />
           </Button>
           <Participants />
           <Toolbar
@@ -563,9 +566,6 @@ const Canvas = ({ boardId }: CanvasProps) => {
         />
       </ContextMenuContent>
     </ContextMenu>
-
-
-
   )
 }
 
