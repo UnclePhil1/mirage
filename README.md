@@ -20,9 +20,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 #Inspiration
 After exploring various websites and applications for collaboration, I consistently encountered limitations and complexities that hindered our workflow and consumed valuable time. Motivated by these challenges, I set out to create a transformative solution: a fast, reliable, and effortlessly accessible collaborative whiteboard. This tool is designed to be completely free, removing barriers to access and fostering inclusivity. By integrating cross-functional features, it meets the diverse needs of collaborative teams and companies. Our vision is to streamline collaboration, making it intuitive and enjoyable for everyone to contribute and navigate. This is more than just a tool; it's a commitment to enhancing teamwork and bringing creative minds together seamlessly.
+![Screenshot (30)](https://github.com/UnclePhil1/mirage/assets/95418182/f55f1ca0-15f4-4ecb-8c91-067c379f89c2)
 
 #What it does
 Mirage leverages the power of the latest web technologies, including Next.js 14, Clerk, Convex, and Liveblocks, to provide an unparalleled real-time whiteboard experience.
+
 
 Mirage enables you to draw, write, and brainstorm in real-time with participants from around the globe. Featuring a dynamic and user-friendly interface, Mirage allows you to add various shapes such as rectangles and ellipses, utilize sticky notes for better organization, and freely express your ideas through pencil drawing.
 
