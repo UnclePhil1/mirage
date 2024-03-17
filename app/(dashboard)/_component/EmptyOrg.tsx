@@ -23,13 +23,13 @@ const EmptyOrg = () => {
                     animationDelay: '0s',
                 }}
             />
-            <p className='text-secondary/50 text-xl text-center'>Welcome to Mirage Whiteboard!</p>
-            <p className='text-secondary/40 text-sm text-center'>Create an organization to get started!</p>
+            <p className='text-primary/50 text-xl text-center'>Welcome to Mirage Whiteboard!</p>
+            <p className='text-primary/40 text-sm text-center'>Create an organization to get started!</p>
             <div className="mt-4">
                 <Dialog>
                     <DialogTrigger>
                         <div className="aspect-square w-full h-full">
-                            <Button variant={'outline'} className='bg-transparent obrder border-secondary/30'>
+                            <Button variant='default'>
                                 Create organization
                             </Button>
                         </div>
